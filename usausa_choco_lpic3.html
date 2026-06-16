@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>うさうさチョコレート工場 〜LPIC-3 黄金きっぷ道場〜</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Kaisei+Decol:wght@400;500;700&family=Zen+Maru+Gothic:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cocoa-900:#211009;
+  --cocoa-800:#2e1810;
+  --cocoa-700:#3d2317;
+  --cocoa-600:#54321f;
+  --cocoa-500:#6e442a;
+  --caramel:#c17a3f;
+  --caramel-l:#dca066;
+  --gold:#edbb4d;
+  --gold-deep:#cf9a2e;
+  --cream:#f6eddd;
+  --cream-100:#fbf6ec;
+  --rose:#e69aa6;
+  --rose-deep:#cf7c8b;
+  --pistachio:#83b48d;
+  --pistachio-deep:#5f9069;
+  --berry:#d2615e;
+  --ink:#2c1a11;
+  --ink-soft:#5b4434;
+  --line:rgba(44,26,17,.16);
+  --shadow:0 18px 40px -22px rgba(20,8,2,.7);
+  --shadow-card:0 10px 26px -16px rgba(20,8,2,.55);
+  --r:18px;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  font-family:"Zen Maru Gothic",system-ui,sans-serif;
+  color:var(--cream);
+  background:
+    radial-gradient(circle at 12% 8%, rgba(237,187,77,.10), transparent 42%),
+    radial-gradient(circle at 88% 0%, rgba(230,154,166,.10), transparent 40%),
+    radial-gradient(circle at 50% 120%, rgba(193,122,63,.14), transparent 55%),
+    var(--cocoa-900);
+  min-height:100vh;
+  line-height:1.7;
+  -webkit-font-smoothing:antialiased;
+}
+/* polka candy dots */
+body::before{
+  content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.5;
+  background-image:radial-gradient(rgba(237,187,77,.06) 1.4px, transparent 1.6px);
+  background-size:26px 26px;
+}
+.wrap{position:relative;z-index:1;max-width:1080px;margin:0 auto;padding:26px 18px 80px}
+
+/* ---------- header ---------- */
+.facade{
+  position:relative;
+  border-radius:26px;
+  padding:30px 26px 26px;
+  background:
+    linear-gradient(180deg,#3e2418,#2c1810);
+  border:1px solid rgba(237,187,77,.22);
+  box-shadow:var(--shadow);
+  overflow:hidden;
+}
+.facade::after{ /* scalloped awning */
+  content:"";position:absolute;left:0;right:0;top:0;height:18px;
+  background:
+    radial-gradient(circle at 12px -2px, var(--rose-deep) 12px, transparent 13px) 0 0/24px 18px repeat-x;
+  opacity:.9;
+}
+.brand{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.bun{
+  width:58px;height:58px;flex:0 0 auto;border-radius:50%;
+  background:radial-gradient(circle at 38% 32%, #fff7ef, #f3d9c2);
+  display:grid;place-items:center;font-size:30px;
+  box-shadow:0 0 0 4px rgba(237,187,77,.35), var(--shadow-card);
+}
+.brand h1{
+  font-family:"Kaisei Decol",serif;font-weight:700;
+  margin:0;font-size:clamp(20px,4.6vw,30px);letter-spacing:.02em;
+  color:var(--cream-100);text-shadow:0 2px 0 rgba(0,0,0,.25);
+}
+.brand .sub{margin:2px 0 0;font-size:12.5px;color:var(--gold);letter-spacing:.14em}
+.ticket{
+  margin-left:auto;display:flex;align-items:center;gap:8px;
+  background:linear-gradient(135deg,var(--gold),var(--gold-deep));
+  color:#3a2410;font-weight:700;font-size:12.5px;
+  padding:8px 14px;border-radius:999px;
+  border:2px dashed rgba(58,36,16,.4);
+  box-shadow:var(--shadow-card);
+}
+.tagline{
+  margin:16px 0 0;font-family:"Kaisei Decol",serif;font-size:13.5px;
+  color:var(--rose);letter-spacing:.04em;
+}
+
+/* ---------- machine band (signature) ---------- */
+.machine{
+  margin-top:18px;border-radius:22px;
+  background:linear-gradient(180deg,#34201400,#2a160c);
+  border:1px solid var(--line);
+  background-color:#2b170d;
+  padding:16px;
+  display:grid;grid-template-columns:1.05fr 1.25fr 1fr;gap:14px;align-items:stretch;
+}
+@media (max-width:760px){ .machine{grid-template-columns:1fr} }
+.bay{
+  position:relative;border-radius:16px;padding:14px;
+  background:linear-gradient(180deg,#3c2417,#311b10);
+  border:1px solid rgba(237,187,77,.16);
+  min-height:160px;display:flex;flex-direction:column;
+}
+.bay-label{
+  font-size:11px;letter-spacing:.18em;color:var(--gold);
+  text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:6px;
+}
+.bay-label b{font-family:"Kaisei Decol",serif;font-size:13px;color:var(--cream-100);letter-spacing:.06em}
+
+/* hopper / drop */
+.drop{
+  flex:1;border:2px dashed rgba(237,187,77,.45);border-radius:12px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
+  text-align:center;padding:14px;cursor:pointer;transition:.18s;
+  color:var(--cream);background:rgba(0,0,0,.12);
+}
+.drop:hover,.drop.hot{background:rgba(237,187,77,.12);border-color:var(--gold);transform:translateY(-1px)}
+.drop .chute{font-size:30px}
+.drop small{font-size:11.5px;color:var(--cream);opacity:.7}
+.thumb-wrap{flex:1;display:none;border-radius:12px;overflow:hidden;position:relative;border:1px solid rgba(237,187,77,.3);background:#1c0f08}
+.thumb-wrap.show{display:block}
+.thumb-wrap img{width:100%;height:100%;object-fit:cover;display:block;max-height:130px}
+.thumb-wrap .reset{
+  position:absolute;top:6px;right:6px;border:none;cursor:pointer;
+  background:rgba(33,16,9,.8);color:var(--cream);border-radius:8px;
+  font-family:inherit;font-size:11px;padding:4px 8px;
+}
+
+/* core machine visual */
+.core{align-items:center;justify-content:center;overflow:hidden}
+.kettle{
+  position:relative;width:118px;height:118px;border-radius:18px;
+  background:
+    radial-gradient(circle at 32% 28%, rgba(255,255,255,.18), transparent 50%),
+    linear-gradient(160deg,#8a5a34,#5a3620);
+  border:3px solid var(--gold-deep);
+  display:grid;place-items:center;
+  box-shadow:inset 0 -10px 18px rgba(0,0,0,.35), var(--shadow-card);
+}
+.window{
+  width:74px;height:74px;border-radius:12px;overflow:hidden;position:relative;
+  background:repeating-linear-gradient(45deg,#3a2114,#3a2114 8px,#46291a 8px,#46291a 16px);
+  border:2px solid #2a160c;
+}
+.gear{position:absolute;border-radius:50%;border:5px solid var(--gold);background:#7a4d2c;}
+.gear::before{content:"";position:absolute;inset:6px;border-radius:50%;border:3px dotted rgba(255,255,255,.25)}
+.g1{width:38px;height:38px;left:8px;top:10px;animation:spin 4.5s linear infinite}
+.g2{width:28px;height:28px;right:8px;bottom:8px;animation:spin 3.2s linear infinite reverse}
+.running .g1{animation-duration:.9s}
+.running .g2{animation-duration:.7s}
+@keyframes spin{to{transform:rotate(360deg)}}
+.steam{position:absolute;top:-14px;left:50%;width:10px;height:18px;border-radius:50%;
+  background:rgba(246,237,221,.5);filter:blur(3px);opacity:0;transform:translateX(-50%)}
+.running .steam{animation:steam 1.1s ease-out infinite}
+@keyframes steam{0%{opacity:.6;transform:translate(-50%,0) scale(.7)}100%{opacity:0;transform:translate(-50%,-26px) scale(1.4)}}
+
+/* output tray */
+.tray{align-items:center;justify-content:center}
+.belt{
+  width:100%;height:26px;border-radius:8px;margin-top:auto;
+  background:repeating-linear-gradient(90deg,#241008,#241008 14px,#321810 14px,#321810 28px);
+  border:1px solid rgba(237,187,77,.2);
+}
+.running .belt{animation:belt .5s linear infinite}
+@keyframes belt{to{background-position:28px 0}}
+.bars{display:flex;gap:8px;margin-bottom:10px;min-height:46px;align-items:flex-end}
+.bar{
+  width:24px;height:0;border-radius:5px;
+  background:linear-gradient(180deg,#7a4a2a,#4d2c18);
+  border:1px solid rgba(237,187,77,.35);
+  box-shadow:inset 0 -4px 6px rgba(0,0,0,.4);
+}
+.bars.pop .bar{animation:drop .5s cubic-bezier(.2,1.4,.4,1) forwards}
+.bars.pop .bar:nth-child(2){animation-delay:.08s}
+.bars.pop .bar:nth-child(3){animation-delay:.16s}
+.bars.pop .bar:nth-child(4){animation-delay:.24s}
+@keyframes drop{to{height:42px}}
+
+/* ---------- recipe / controls ---------- */
+.panel{
+  margin-top:18px;background:var(--cream);color:var(--ink);
+  border-radius:var(--r);padding:18px;box-shadow:var(--shadow-card);
+  border:1px solid rgba(0,0,0,.06);
+}
+.panel-h{font-family:"Kaisei Decol",serif;font-weight:700;font-size:16px;margin:0 0 4px;color:var(--cocoa-700);display:flex;align-items:center;gap:8px}
+.panel-h .em{font-size:11px;letter-spacing:.16em;color:var(--caramel);font-family:"Zen Maru Gothic"}
+.ctl-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-top:14px}
+.ctl{display:flex;flex-direction:column;gap:7px}
+.ctl > span{font-size:11.5px;font-weight:700;color:var(--ink-soft);letter-spacing:.04em}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{
+  border:1.5px solid var(--line);background:var(--cream-100);color:var(--ink-soft);
+  font-family:inherit;font-size:12.5px;font-weight:700;border-radius:999px;
+  padding:6px 12px;cursor:pointer;transition:.15s;
+}
+.chip:hover{border-color:var(--caramel)}
+.chip.on{background:var(--cocoa-700);color:var(--cream-100);border-color:var(--cocoa-700)}
+.chip.track.on{background:linear-gradient(135deg,var(--gold),var(--gold-deep));color:#3a2410;border-color:var(--gold-deep)}
+.range-row{display:flex;align-items:center;gap:10px}
+.range-row input[type=range]{flex:1;accent-color:var(--caramel)}
+.range-row b{font-family:"JetBrains Mono",monospace;font-size:15px;color:var(--cocoa-700);min-width:18px;text-align:center}
+.track-note{font-size:11px;color:var(--ink-soft);margin-top:6px;min-height:15px}
+
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+.btn{
+  font-family:inherit;font-weight:700;border:none;cursor:pointer;border-radius:12px;
+  padding:13px 20px;font-size:14.5px;transition:.16s;display:inline-flex;align-items:center;gap:8px;
+}
+.btn:active{transform:translateY(1px)}
+.btn-go{
+  background:linear-gradient(135deg,var(--gold),var(--gold-deep));color:#3a2410;
+  box-shadow:0 8px 18px -8px rgba(207,154,46,.8);
+}
+.btn-go:hover{filter:brightness(1.04)}
+.btn-go:disabled{opacity:.55;cursor:not-allowed;filter:grayscale(.4)}
+.btn-ghost{background:transparent;color:var(--cocoa-700);border:1.5px solid var(--line)}
+.btn-ghost:hover{border-color:var(--caramel);background:var(--cream-100)}
+.hint{font-size:11.5px;color:var(--ink-soft);margin-top:10px}
+.hint code{font-family:"JetBrains Mono",monospace;background:rgba(0,0,0,.06);padding:1px 5px;border-radius:5px;font-size:11px}
+
+/* ---------- workshop / quiz ---------- */
+.workshop{display:none;margin-top:22px;gap:18px;align-items:flex-start}
+.workshop.show{display:grid;grid-template-columns:1fr;}
+@media (min-width:880px){ .workshop.show{grid-template-columns:300px 1fr} }
+
+.viewer{
+  position:sticky;top:14px;align-self:start;
+  background:var(--cocoa-800);border:1px solid rgba(237,187,77,.2);
+  border-radius:16px;padding:12px;box-shadow:var(--shadow-card);
+}
+.viewer .vh{font-size:11px;letter-spacing:.16em;color:var(--gold);margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.viewer-img{
+  border-radius:10px;overflow:hidden;background:#180c06;border:1px solid rgba(255,255,255,.06);
+  cursor:zoom-in;position:relative;
+}
+.viewer-img img{width:100%;display:block;max-height:240px;object-fit:contain}
+.viewer-none{font-size:12px;color:var(--cream);opacity:.55;padding:22px 8px;text-align:center;line-height:1.6}
+.lupe-tip{font-size:10.5px;color:var(--cream);opacity:.55;margin-top:6px;text-align:center}
+.summary-box{
+  margin-top:10px;font-size:12px;color:var(--cream);background:rgba(0,0,0,.18);
+  border-radius:10px;padding:9px 10px;border-left:3px solid var(--rose);max-height:150px;overflow:auto;
+}
+.summary-box b{color:var(--gold);font-family:"Kaisei Decol",serif}
+
+.qstream{display:flex;flex-direction:column;gap:16px}
+.scoreboard{
+  background:var(--cocoa-800);border:1px solid rgba(237,187,77,.2);border-radius:16px;
+  padding:14px 16px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+}
+.scoreboard .big{font-family:"Kaisei Decol",serif;font-size:26px;color:var(--gold);line-height:1}
+.scoreboard .lbl{font-size:11px;letter-spacing:.1em;color:var(--cream);opacity:.7}
+.progress{flex:1;min-width:120px;height:12px;border-radius:999px;background:rgba(0,0,0,.3);overflow:hidden;border:1px solid rgba(237,187,77,.18)}
+.progress > i{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--rose),var(--gold));transition:width .5s}
+.tix{display:flex;gap:3px;font-size:16px}
+
+.card{
+  background:var(--cream);color:var(--ink);border-radius:16px;padding:18px 18px 16px;
+  box-shadow:var(--shadow-card);border:1px solid rgba(0,0,0,.06);position:relative;
+}
+.card::before{ /* chocolate wrapper notch */
+  content:"";position:absolute;left:18px;top:-1px;width:46px;height:5px;border-radius:0 0 6px 6px;
+  background:var(--caramel);
+}
+.card-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.q-no{font-family:"Kaisei Decol",serif;font-weight:700;color:var(--cocoa-600);font-size:14px}
+.topic{font-size:11px;font-weight:700;background:rgba(193,122,63,.14);color:var(--caramel);padding:3px 9px;border-radius:999px}
+.qtype{font-size:11px;font-weight:700;padding:3px 9px;border-radius:999px}
+.qtype.cmd{background:rgba(131,180,141,.18);color:var(--pistachio-deep)}
+.qtype.cho{background:rgba(230,154,166,.2);color:var(--rose-deep)}
+.peek{margin-left:auto;border:none;cursor:pointer;background:transparent;color:var(--caramel);font-family:inherit;font-weight:700;font-size:12px;display:inline-flex;align-items:center;gap:4px}
+.peek:hover{text-decoration:underline}
+.stem{font-size:14.5px;color:var(--ink);margin:0 0 12px;white-space:pre-wrap}
+
+.cmdline{display:flex;align-items:stretch;border-radius:10px;overflow:hidden;border:1.5px solid var(--cocoa-700);background:#1d100a;font-family:"JetBrains Mono",monospace}
+.cmdline .ps{color:var(--pistachio);padding:11px 4px 11px 12px;font-size:14px;user-select:none}
+.cmdline input{flex:1;border:none;background:transparent;color:var(--cream-100);font-family:inherit;font-size:14px;padding:11px 10px;outline:none}
+.choices{display:flex;flex-direction:column;gap:8px}
+.choice{
+  text-align:left;border:1.5px solid var(--line);background:var(--cream-100);color:var(--ink);
+  font-family:"JetBrains Mono",monospace;font-size:13.5px;border-radius:10px;padding:11px 13px;cursor:pointer;transition:.13s;
+  display:flex;gap:10px;align-items:flex-start;
+}
+.choice .mk{font-family:"Zen Maru Gothic";font-weight:700;color:var(--caramel)}
+.choice:hover{border-color:var(--caramel)}
+.choice.sel{border-color:var(--cocoa-700);background:#fff}
+.choice.correct{border-color:var(--pistachio-deep);background:rgba(131,180,141,.16)}
+.choice.wrong{border-color:var(--berry);background:rgba(210,97,94,.12)}
+.choice[disabled]{cursor:default}
+
+.card-actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.btn-sm{font-family:inherit;font-weight:700;border-radius:9px;padding:8px 14px;font-size:12.5px;cursor:pointer;border:1.5px solid var(--line);background:var(--cream-100);color:var(--cocoa-700)}
+.btn-sm:hover{border-color:var(--caramel)}
+.btn-check{background:var(--cocoa-700);color:var(--cream-100);border-color:var(--cocoa-700)}
+.btn-check:hover{filter:brightness(1.1)}
+.feedback{margin-top:12px;display:none;border-radius:12px;padding:12px 14px;font-size:13px}
+.feedback.show{display:block}
+.feedback.ok{background:rgba(131,180,141,.14);border-left:4px solid var(--pistachio-deep)}
+.feedback.ng{background:rgba(210,97,94,.1);border-left:4px solid var(--berry)}
+.feedback .verdict{font-family:"Kaisei Decol",serif;font-weight:700;font-size:14px;margin-bottom:4px}
+.feedback .ans{font-family:"JetBrains Mono",monospace;font-size:13px;background:rgba(0,0,0,.06);padding:3px 7px;border-radius:6px;display:inline-block;color:var(--cocoa-700)}
+.feedback .exp{margin-top:8px;color:var(--ink-soft);line-height:1.7}
+
+/* loading / status */
+.status{display:none;margin-top:14px;align-items:center;gap:10px;font-size:13px;color:var(--gold);font-weight:700}
+.status.show{display:flex}
+.status .dot{width:9px;height:9px;border-radius:50%;background:var(--gold);animation:pulse 1s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:.3;transform:scale(.8)}50%{opacity:1;transform:scale(1.2)}}
+.toast{
+  position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);
+  background:var(--cocoa-800);color:var(--cream-100);border:1px solid var(--berry);
+  padding:12px 18px;border-radius:12px;font-size:13px;font-weight:700;z-index:50;
+  opacity:0;pointer-events:none;transition:.3s;box-shadow:var(--shadow);max-width:90vw;text-align:center;
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* lightbox */
+.lightbox{position:fixed;inset:0;z-index:60;background:rgba(15,7,3,.92);display:none;flex-direction:column;align-items:center;justify-content:center;padding:18px}
+.lightbox.show{display:flex}
+.lb-stage{flex:1;width:100%;display:flex;align-items:center;justify-content:center;overflow:hidden;cursor:grab}
+.lb-stage.drag{cursor:grabbing}
+.lb-stage img{max-width:none;transform-origin:center;transition:transform .05s;user-select:none;-webkit-user-drag:none;box-shadow:0 20px 60px -10px rgba(0,0,0,.8);border-radius:6px}
+.lb-bar{display:flex;align-items:center;gap:14px;color:var(--cream);padding:12px;font-size:13px}
+.lb-bar input{accent-color:var(--gold);width:160px}
+.lb-bar .lupe{font-size:11px;letter-spacing:.14em;color:var(--gold)}
+.lb-close{position:absolute;top:14px;right:16px;border:none;background:rgba(246,237,221,.12);color:var(--cream-100);border-radius:10px;font-family:inherit;font-weight:700;padding:8px 14px;cursor:pointer;font-size:13px}
+.lb-close:hover{background:rgba(246,237,221,.22)}
+
+footer{margin-top:40px;text-align:center;font-size:11.5px;color:rgba(246,237,221,.5);line-height:1.8}
+footer b{color:var(--rose)}
+
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.05ms!important}
+}
+.hidden-file{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ====== facade ====== -->
+  <header class="facade">
+    <div class="brand">
+      <div class="bun">🐰</div>
+      <div>
+        <h1>うさうさチョコレート工場</h1>
+        <p class="sub">L P I C — L E V E L 3 ・ 黄金きっぷ道場</p>
+      </div>
+      <div class="ticket">🎫 GOLDEN TICKET</div>
+    </div>
+    <p class="tagline">「画像という名のカカオ豆を、コマンド問題のチョコレートに」</p>
+
+    <!-- machine band -->
+    <div class="machine" id="machine">
+      <!-- hopper -->
+      <div class="bay">
+        <div class="bay-label">① 投入口 <b>カカオ豆</b></div>
+        <div class="drop" id="drop">
+          <div class="chute">🫘</div>
+          <div>manページ・設定ファイル・端末画面の<br><b>画像をドロップ</b></div>
+          <small>クリックで選択／png・jpg・webp</small>
+        </div>
+        <div class="thumb-wrap" id="thumbWrap">
+          <img id="thumb" alt="投入された画像">
+          <button class="reset" id="thumbReset">✕ 取り出す</button>
+        </div>
+        <input type="file" id="file" class="hidden-file" accept="image/*">
+      </div>
+      <!-- core machine -->
+      <div class="bay core" id="core">
+        <div class="bay-label">② 魔法の製造機 <b>OCR釜</b></div>
+        <div class="kettle">
+          <div class="steam"></div>
+          <div class="window">
+            <div class="gear g1"></div>
+            <div class="gear g2"></div>
+          </div>
+        </div>
+      </div>
+      <!-- output -->
+      <div class="bay tray">
+        <div class="bay-label">③ 出来上がり <b>問題チョコ</b></div>
+        <div class="bars" id="bars">
+          <span class="bar"></span><span class="bar"></span><span class="bar"></span><span class="bar"></span>
+        </div>
+        <div class="belt"></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ====== recipe / controls ====== -->
+  <section class="panel">
+    <h2 class="panel-h">📜 本日のレシピ <span class="em">RECIPE</span></h2>
+
+    <div class="ctl-grid">
+      <div class="ctl" style="grid-column:1/-1">
+        <span>試験トラック</span>
+        <div class="chips" id="tracks">
+          <button class="chip track on" data-track="303">303 セキュリティ 🔐</button>
+          <button class="chip track" data-track="304">304 仮想化&amp;高可用性 🧱</button>
+          <button class="chip track" data-track="300">300 混在環境 🪟</button>
+        </div>
+        <div class="track-note" id="trackNote"></div>
+      </div>
+
+      <div class="ctl">
+        <span>出題タイプ</span>
+        <div class="chips" id="mix">
+          <button class="chip on" data-mix="mix">ミックス 🍫</button>
+          <button class="chip" data-mix="command">コマンド入力 ⌨️</button>
+          <button class="chip" data-mix="choice">4択 🎯</button>
+        </div>
+      </div>
+
+      <div class="ctl">
+        <span>難易度</span>
+        <div class="chips" id="diff">
+          <button class="chip" data-diff="basic">基礎 🍬</button>
+          <button class="chip on" data-diff="standard">標準 🍫</button>
+          <button class="chip" data-diff="hard">難問 🌶️</button>
+        </div>
+      </div>
+
+      <div class="ctl">
+        <span>つくる個数</span>
+        <div class="range-row">
+          <input type="range" id="count" min="2" max="6" value="4" step="1">
+          <b id="countVal">4</b>
+        </div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-go" id="goBtn">🍫 製造開始</button>
+      <button class="btn btn-ghost" id="demoBtn">🫘 デモ豆でためす（AIなし）</button>
+    </div>
+    <div class="status" id="status"><span class="dot"></span><span id="statusTxt">釜を温めています…</span></div>
+    <p class="hint">画像を入れると、その中の <code>man</code> ページ・設定・出力を読み取って問題化します。画像なしでも押せばトラックの定番論点で生産します。<br>※ AI生成は Claude.ai のアーティファクト上で動作。オフライン時は「デモ豆」をどうぞ。</p>
+  </section>
+
+  <!-- ====== workshop ====== -->
+  <section class="workshop" id="workshop">
+    <!-- image viewer (画像眺める) -->
+    <aside class="viewer">
+      <div class="vh">🔍 画像を眺める（ルーペ）</div>
+      <div class="viewer-img" id="viewerImg">
+        <div class="viewer-none">投入した画像がここに映ります。<br>問題を解きながら見比べてね。</div>
+      </div>
+      <div class="lupe-tip">タップで拡大・ドラッグで移動</div>
+      <div class="summary-box" id="summaryBox" style="display:none"></div>
+    </aside>
+
+    <!-- questions -->
+    <div class="qstream">
+      <div class="scoreboard">
+        <div><div class="big"><span id="scoreNum">0</span><span style="font-size:14px;opacity:.6">/<span id="scoreTot">0</span></span></div><div class="lbl">納品した問題チョコ</div></div>
+        <div class="progress"><i id="bar"></i></div>
+        <div class="tix" id="tix"></div>
+      </div>
+      <div id="cards"></div>
+    </div>
+  </section>
+
+  <footer>
+    🐰 <b>うさうさ研修工房</b> ／ LPIC-3 黄金きっぷ道場<br>
+    人ではなく仕組みで。ウソつかず、面白く。
+  </footer>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- lightbox -->
+<div class="lightbox" id="lightbox">
+  <button class="lb-close" id="lbClose">✕ とじる</button>
+  <div class="lb-stage" id="lbStage"><img id="lbImg" alt="拡大画像"></div>
+  <div class="lb-bar">
+    <span class="lupe">🔍 ZOOM</span>
+    <input type="range" id="lbZoom" min="1" max="4" step="0.1" value="1">
+    <span id="lbZoomVal">×1.0</span>
+  </div>
+</div>
+
+<script>
+/* =========================================================
+   うさうさチョコレート工場 — state & data
+   ========================================================= */
+const state = {
+  image:null,           // {dataUrl, mediaType, base64}
+  track:"303",
+  mix:"mix",
+  diff:"standard",
+  count:4,
+  questions:[],
+  answered:{},          // id -> bool(correct)
+};
+
+const TRACKS = {
+  "303":{label:"303 セキュリティ", topics:"暗号化(OpenSSL/X.509/GPG/SSH)・SELinux/AppArmor・iptables/nftables・OpenVPN・侵入検知・脆弱性評価(nmap等)"},
+  "304":{label:"304 仮想化と高可用性", topics:"KVM/QEMU/libvirt・コンテナ・クラウド基礎・Pacemaker/Corosync・DRBD・LVS/ロードバランサ・GFS2/OCFS2"},
+  "300":{label:"300 混在環境", topics:"Samba 4・Active Directory連携・Kerberos・OpenLDAP・NSS/PAM・CIFS/winbind"},
+};
+
+/* ---- offline demo bank (LPIC-3 中心) ---- */
+const DEMO = {
+"303":[
+ {type:"command",topic:"325 暗号化",stem:"証明書ファイル cert.pem の内容（発行者・有効期限など）をテキストで表示したい。openssl で実行するコマンドは？",answer:"openssl x509 -in cert.pem -noout -text",accept:["openssl x509 -noout -text -in cert.pem","openssl x509 -text -noout -in cert.pem"],explanation:"openssl x509 で証明書を扱い、-in で入力、-text で詳細表示、-noout で証明書本体の再出力を抑制します。"},
+ {type:"choice",topic:"327 アクセス制御",stem:"SELinux を一時的に Permissive モードへ切り替えるコマンドはどれ？（再起動で元に戻る）",choices:["setenforce 0","setenforce 1","getenforce","semanage permissive -a httpd_t"],answer:"setenforce 0",explanation:"setenforce 0 が Permissive、1 が Enforcing。恒久変更は /etc/selinux/config を編集します。getenforce は現在のモード表示。"},
+ {type:"command",topic:"327 アクセス制御",stem:"ファイル index.html に付与されている SELinux コンテキストを確認したい。ls に付けるオプションは？（コマンド全体で）",answer:"ls -Z index.html",accept:["ls -lZ index.html","ls --context index.html"],explanation:"-Z で SELinux セキュリティコンテキスト(user:role:type:level)を表示します。プロセスは ps -Z。"},
+ {type:"choice",topic:"328 ネットワークセキュリティ",stem:"nftables の現在のルールセット全体を表示するコマンドはどれ？",choices:["nft list ruleset","iptables -L","nft show all","nftables --list"],answer:"nft list ruleset",explanation:"nft list ruleset で全テーブル・チェーン・ルールを表示します。iptables -L は旧フレームワーク側です。"},
+ {type:"command",topic:"325 暗号化",stem:"ed25519 鍵ペアを新規生成したい。ssh-keygen で鍵種別を指定するコマンドは？",answer:"ssh-keygen -t ed25519",accept:["ssh-keygen -t ed25519 -C comment","ssh-keygen -o -t ed25519"],explanation:"-t で鍵タイプを指定。ed25519 は短く高速で推奨。-C でコメント、-f で出力先を指定できます。"},
+ {type:"choice",topic:"326 ホストセキュリティ",stem:"AppArmor の各プロファイルの状態（enforce/complain等）を一覧表示するコマンドはどれ？",choices:["aa-status","apparmor -l","aa-list","getenforce"],answer:"aa-status",explanation:"aa-status（=apparmor_status）でロード済みプロファイル数と enforce/complain モードを確認できます。"},
+ {type:"command",topic:"329 脆弱性評価",stem:"対象ホスト 192.0.2.10 に対し TCP SYN スキャンを行いたい。nmap のコマンドは？",answer:"nmap -sS 192.0.2.10",accept:["sudo nmap -sS 192.0.2.10","nmap -sS 192.0.2.10/32"],explanation:"-sS は TCP SYN（ハーフオープン）スキャンで、要 root 権限。-sV でサービス／バージョン検出も併用します。"},
+ {type:"choice",topic:"326 ホストセキュリティ",stem:"fail2ban で sshd ジェイルの現在の状態（BAN中のIP等）を確認するコマンドはどれ？",choices:["fail2ban-client status sshd","fail2ban -s sshd","systemctl status sshd","fail2ban-client list"],answer:"fail2ban-client status sshd",explanation:"fail2ban-client status <jail名> で対象ジェイルの統計と現在 BAN 中のIPを表示します。"},
+],
+"304":[
+ {type:"command",topic:"330 仮想化",stem:"libvirt で現在稼働中（running）の仮想マシン一覧を表示するコマンドは？",answer:"virsh list",accept:["virsh list --state-running","sudo virsh list"],explanation:"virsh list は稼働中ドメインを表示。停止中も含む全件は virsh list --all です。"},
+ {type:"choice",topic:"331 高可用性クラスタ管理",stem:"Pacemaker クラスタのリソース／ノード状態をリアルタイム監視するコマンドはどれ？",choices:["crm_mon","pcs cluster start","corosync-cfgtool -s","drbdadm status"],answer:"crm_mon",explanation:"crm_mon でクラスタ状態を継続表示。pcs status でも確認でき、-1 で一度だけ表示します。"},
+ {type:"command",topic:"332 高可用性クラスタストレージ",stem:"DRBD リソース r0 の同期状態を確認したい。drbdadm のコマンドは？",answer:"drbdadm status r0",accept:["drbdadm status","cat /proc/drbd"],explanation:"drbdadm status でロール(Primary/Secondary)と接続・ディスク状態を確認します。"},
+],
+"300":[
+ {type:"command",topic:"302 Samba基礎",stem:"Samba サーバの smb.conf に文法エラーがないか検証するコマンドは？",answer:"testparm",accept:["testparm -s","testparm /etc/samba/smb.conf"],explanation:"testparm で smb.conf の構文チェックと有効設定のダンプができます。"},
+ {type:"choice",topic:"301 OpenLDAP",stem:"OpenLDAP(slapd) のオンライン設定(cn=config)を検索する基本コマンドはどれ？",choices:["ldapsearch -Y EXTERNAL -H ldapi:/// -b cn=config","slapcat -b cn=config","ldapadd -x -b cn=config","slappasswd -b cn=config"],answer:"ldapsearch -Y EXTERNAL -H ldapi:/// -b cn=config",explanation:"ldapi:/// + SASL EXTERNAL で root が cn=config を参照する定番手順です。"},
+ {type:"command",topic:"302 Samba/AD",stem:"Kerberos チケットを取得して現在のチケット情報を確認したい。発行済みチケットを一覧表示するコマンドは？",answer:"klist",accept:["klist -e","klist -A"],explanation:"kinit で取得し、klist で TGT/サービスチケットと有効期限を確認します。"},
+],
+};
+
+/* =========================================================
+   DOM refs
+   ========================================================= */
+const $ = s => document.querySelector(s);
+const drop=$("#drop"), file=$("#file"), thumbWrap=$("#thumbWrap"), thumb=$("#thumb"),
+      trackNote=$("#trackNote"), countEl=$("#count"), countVal=$("#countVal"),
+      goBtn=$("#goBtn"), demoBtn=$("#demoBtn"), statusEl=$("#status"), statusTxt=$("#statusTxt"),
+      machine=$("#machine"), bars=$("#bars"), workshop=$("#workshop"), cards=$("#cards"),
+      viewerImg=$("#viewerImg"), summaryBox=$("#summaryBox"), toast=$("#toast"),
+      scoreNum=$("#scoreNum"), scoreTot=$("#scoreTot"), barFill=$("#bar"), tixEl=$("#tix");
+
+/* =========================================================
+   controls
+   ========================================================= */
+function setTrackNote(){ trackNote.textContent = "論点: " + TRACKS[state.track].topics; }
+setTrackNote();
+
+document.querySelectorAll("#tracks .chip").forEach(c=>c.onclick=()=>{
+  document.querySelectorAll("#tracks .chip").forEach(x=>x.classList.remove("on"));
+  c.classList.add("on"); state.track=c.dataset.track; setTrackNote();
+});
+document.querySelectorAll("#mix .chip").forEach(c=>c.onclick=()=>{
+  document.querySelectorAll("#mix .chip").forEach(x=>x.classList.remove("on"));
+  c.classList.add("on"); state.mix=c.dataset.mix;
+});
+document.querySelectorAll("#diff .chip").forEach(c=>c.onclick=()=>{
+  document.querySelectorAll("#diff .chip").forEach(x=>x.classList.remove("on"));
+  c.classList.add("on"); state.diff=c.dataset.diff;
+});
+countEl.oninput=()=>{ state.count=+countEl.value; countVal.textContent=countEl.value; };
+
+/* =========================================================
+   image intake
+   ========================================================= */
+drop.onclick=()=>file.click();
+["dragenter","dragover"].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.add("hot");}));
+["dragleave","drop"].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.remove("hot");}));
+drop.addEventListener("drop",e=>{ const f=e.dataTransfer.files[0]; if(f) handleFile(f); });
+file.onchange=()=>{ if(file.files[0]) handleFile(file.files[0]); };
+$("#thumbReset").onclick=(e)=>{ e.stopPropagation(); clearImage(); };
+
+function handleFile(f){
+  if(!f.type.startsWith("image/")){ showToast("画像ファイルを入れてね🐰"); return; }
+  const r=new FileReader();
+  r.onload=()=>{
+    const dataUrl=r.result;
+    state.image={ dataUrl, mediaType:f.type, base64:dataUrl.split(",")[1] };
+    thumb.src=dataUrl; thumbWrap.classList.add("show"); drop.style.display="none";
+    updateViewer();
+  };
+  r.readAsDataURL(f);
+}
+function clearImage(){
+  state.image=null; thumbWrap.classList.remove("show"); drop.style.display="";
+  file.value=""; updateViewer();
+}
+function updateViewer(){
+  if(state.image){
+    viewerImg.innerHTML=`<img src="${state.image.dataUrl}" alt="投入画像">`;
+    viewerImg.onclick=openLightbox;
+  }else{
+    viewerImg.innerHTML=`<div class="viewer-none">投入した画像がここに映ります。<br>問題を解きながら見比べてね。</div>`;
+    viewerImg.onclick=null;
+  }
+}
+
+/* =========================================================
+   machine animation
+   ========================================================= */
+function runMachine(on){
+  machine.classList.toggle("running", on);
+  if(on){ bars.classList.remove("pop"); }
+  else{ void bars.offsetWidth; bars.classList.add("pop"); }
+}
+
+/* =========================================================
+   generate — main entry
+   ========================================================= */
+goBtn.onclick=generate;
+demoBtn.onclick=()=>loadDemo();
+
+async function generate(){
+  goBtn.disabled=true; demoBtn.disabled=true;
+  statusEl.classList.add("show");
+  statusTxt.textContent = state.image ? "カカオ豆を読み取り中…" : "定番レシピを練り上げ中…";
+  runMachine(true);
+
+  try{
+    const data = await callClaude();
+    const parsed = parseQuestions(data);
+    if(!parsed || !parsed.questions || !parsed.questions.length) throw new Error("empty");
+    finishGenerate(parsed.questions, parsed.source_summary);
+  }catch(err){
+    console.warn("generation failed:",err);
+    runMachine(false);
+    showToast("製造機が休止中…デモ豆でお出しします🫘");
+    loadDemo(true);
+  }finally{
+    goBtn.disabled=false; demoBtn.disabled=false; statusEl.classList.remove("show");
+  }
+}
+
+function finishGenerate(questions, summary){
+  runMachine(false);
+  state.questions = questions.map((q,i)=>({...q,id:i+1}));
+  state.answered={};
+  if(summary){ summaryBox.style.display="block"; summaryBox.innerHTML=`<b>読み取り要約</b><br>${escapeHtml(summary)}`; }
+  else summaryBox.style.display="none";
+  renderCards();
+  workshop.classList.add("show");
+  workshop.scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+/* ---- Claude API (Claudeception) ---- */
+async function callClaude(){
+  const t = TRACKS[state.track];
+  const mixDesc = state.mix==="command" ? "全問 command 型"
+                : state.mix==="choice"  ? "全問 choice 型"
+                : "command と choice をほぼ半々で混在";
+  const diffDesc = state.diff==="basic" ? "基礎（用語・基本オプション）"
+                 : state.diff==="hard" ? "難問（応用・ひっかけ・複合オプション）"
+                 : "標準（実務でよく使う水準）";
+
+  const instruction =
+`LPIC-3 「${t.label}」の練習問題を ${state.count} 問つくってください。
+論点の範囲: ${t.topics}
+${state.image ? "添付画像（manページ／設定ファイル／コマンド出力／端末画面など）の文字を正確に読み取り、その内容に根ざした問題を優先してください。根拠が薄い箇所は上記論点で補完して構いません。" : "画像はありません。上記トラックの定番論点から出題してください。"}
+難易度: ${diffDesc} ／ タイプ配分: ${mixDesc}
+
+必ず次のJSONのみを出力（前置き・後置き・コードフェンス・コメント禁止）:
+{"source_summary":"画像から読み取った要点を1〜2文。画像が無ければ空文字","questions":[
+{"type":"command","topic":"例:325 暗号化","stem":"問題文","answer":"模範解答コマンド","accept":["許容する別表記"],"explanation":"2〜3文の日本語解説"},
+{"type":"choice","topic":"例:327 アクセス制御","stem":"問題文","choices":["選択肢1","選択肢2","選択肢3","選択肢4"],"answer":"正解の選択肢文字列(choicesのいずれかと完全一致)","explanation":"2〜3文の日本語解説"}
+]}
+注意: commandのanswerはコマンド文字列のみ。choiceのanswerはchoices内の文字列と完全一致。日本語で簡潔に。`;
+
+  const content = [];
+  if(state.image){
+    content.push({type:"image",source:{type:"base64",media_type:state.image.mediaType,data:state.image.base64}});
+  }
+  content.push({type:"text",text:instruction});
+
+  const res = await fetch("https://api.anthropic.com/v1/messages",{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({
+      model:"claude-sonnet-4-6",
+      max_tokens:1000,
+      system:"あなたはLPIC-3試験に精通した一流のLinux講師『うさうさ先生』です。実在のコマンド・オプションのみを用い、ウソをつかず、指定されたJSON形式のみを返します。",
+      messages:[{role:"user",content}]
+    })
+  });
+  if(!res.ok) throw new Error("http "+res.status);
+  const data = await res.json();
+  return (data.content||[]).filter(b=>b.type==="text").map(b=>b.text).join("\n");
+}
+
+/* ---- tolerant JSON parser (truncation-safe) ---- */
+function parseQuestions(text){
+  if(!text) return null;
+  let t = text.replace(/```json/gi,"").replace(/```/g,"").trim();
+  // 1) try straight parse
+  try{ const o=JSON.parse(t); if(o&&o.questions) return o; }catch(e){}
+  // 2) recover: locate questions array and collect complete objects
+  const arrStart = t.indexOf("[", t.indexOf("\"questions\""));
+  if(arrStart<0) return null;
+  const objs = extractObjects(t.slice(arrStart+1));
+  const questions=[];
+  for(const s of objs){ try{ questions.push(JSON.parse(s)); }catch(e){} }
+  if(!questions.length) return null;
+  let summary="";
+  const m=t.match(/"source_summary"\s*:\s*"((?:[^"\\]|\\.)*)"/);
+  if(m){ try{ summary=JSON.parse('"'+m[1]+'"'); }catch(e){ summary=m[1]; } }
+  return {source_summary:summary, questions};
+}
+function extractObjects(body){
+  const out=[]; let depth=0,start=-1,inStr=false,esc=false;
+  for(let i=0;i<body.length;i++){
+    const ch=body[i];
+    if(inStr){ if(esc)esc=false; else if(ch==="\\")esc=true; else if(ch==='"')inStr=false; continue; }
+    if(ch==='"'){inStr=true;continue;}
+    if(ch==="{"){ if(depth===0)start=i; depth++; }
+    else if(ch==="}"){ depth--; if(depth===0&&start>=0){ out.push(body.slice(start,i+1)); start=-1; } }
+    else if(ch==="]"&&depth===0){ break; }
+  }
+  return out;
+}
+
+/* ---- demo bank ---- */
+function loadDemo(silent){
+  runMachine(true);
+  setTimeout(()=>{
+    const pool = (DEMO[state.track]||DEMO["303"]).slice();
+    // filter by mix
+    let filtered = pool.filter(q=> state.mix==="mix" ? true : q.type===state.mix);
+    if(!filtered.length) filtered=pool;
+    // shuffle & cut
+    for(let i=filtered.length-1;i>0;i--){const j=(Math.random()*(i+1))|0;[filtered[i],filtered[j]]=[filtered[j],filtered[i]];}
+    const picked = filtered.slice(0, Math.min(state.count, filtered.length));
+    finishGenerate(picked.map(q=>({...q})), "");
+    if(!silent) showToast("デモ豆を生産しました🫘 (オフライン内蔵問題)");
+  }, 650);
+}
+
+/* =========================================================
+   render quiz
+   ========================================================= */
+function renderCards(){
+  cards.innerHTML="";
+  scoreTot.textContent=state.questions.length;
+  scoreNum.textContent="0";
+  barFill.style.width="0%";
+  tixEl.innerHTML="";
+  state.questions.forEach(q=>cards.appendChild(buildCard(q)));
+}
+
+function buildCard(q){
+  const el=document.createElement("div");
+  el.className="card"; el.dataset.id=q.id;
+  const typeLabel = q.type==="command" ? `<span class="qtype cmd">⌨️ コマンド入力</span>` : `<span class="qtype cho">🎯 4択</span>`;
+  const peekBtn = state.image ? `<button class="peek" data-peek>🔍 画像を見る</button>` : "";
+
+  let answerArea="";
+  if(q.type==="command"){
+    answerArea=`<div class="cmdline"><span class="ps">$</span><input type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="コマンドを入力…" data-input></div>`;
+  }else{
+    const marks="①②③④⑤";
+    answerArea=`<div class="choices">`+ (q.choices||[]).map((c,i)=>
+      `<button class="choice" data-choice="${escapeAttr(c)}"><span class="mk">${marks[i]||"・"}</span><span>${escapeHtml(c)}</span></button>`).join("") +`</div>`;
+  }
+
+  el.innerHTML=`
+    <div class="card-top">
+      <span class="q-no">No.${q.id}</span>
+      <span class="topic">${escapeHtml(q.topic||TRACKS[state.track].label)}</span>
+      ${typeLabel}
+      ${peekBtn}
+    </div>
+    <p class="stem">${escapeHtml(q.stem||"")}</p>
+    ${answerArea}
+    <div class="card-actions">
+      <button class="btn-sm btn-check" data-check>🍫 答え合わせ</button>
+      <button class="btn-sm" data-reveal>💡 答えを見る</button>
+    </div>
+    <div class="feedback" data-feedback></div>
+  `;
+
+  // wiring
+  if(peekBtn) el.querySelector("[data-peek]").onclick=openLightbox;
+
+  if(q.type==="choice"){
+    el.querySelectorAll(".choice").forEach(btn=>btn.onclick=()=>{
+      if(el.dataset.locked) return;
+      el.querySelectorAll(".choice").forEach(b=>b.classList.remove("sel"));
+      btn.classList.add("sel");
+    });
+  }
+  el.querySelector("[data-check]").onclick=()=>checkCard(el,q);
+  el.querySelector("[data-reveal]").onclick=()=>revealCard(el,q);
+  if(q.type==="command"){
+    el.querySelector("[data-input]").addEventListener("keydown",e=>{ if(e.key==="Enter") checkCard(el,q); });
+  }
+  return el;
+}
+
+function normCmd(s){ return (s||"").trim().replace(/\s+/g," "); }
+function isCmdCorrect(given,q){
+  const g=normCmd(given);
+  if(!g) return false;
+  const cands=[q.answer,...(q.accept||[])].map(normCmd);
+  return cands.includes(g);
+}
+
+function checkCard(el,q){
+  if(el.dataset.locked) return;
+  let correct=false, given="";
+  if(q.type==="command"){
+    const inp=el.querySelector("[data-input]");
+    given=inp.value;
+    if(!normCmd(given)){ showToast("コマンドを入力してね🐰"); return; }
+    correct=isCmdCorrect(given,q);
+    inp.disabled=true;
+  }else{
+    const sel=el.querySelector(".choice.sel");
+    if(!sel){ showToast("選択肢を選んでね🐰"); return; }
+    given=sel.dataset.choice;
+    correct = normCmd(given)===normCmd(q.answer);
+    el.querySelectorAll(".choice").forEach(b=>{
+      b.disabled=true;
+      if(normCmd(b.dataset.choice)===normCmd(q.answer)) b.classList.add("correct");
+      else if(b===sel) b.classList.add("wrong");
+    });
+  }
+  lockCard(el,q,correct);
+}
+
+function revealCard(el,q){
+  if(el.dataset.locked){ // just re-show feedback
+    showFeedback(el,q,el.dataset.correct==="1");
+    return;
+  }
+  if(q.type==="command"){
+    const inp=el.querySelector("[data-input]"); inp.disabled=true;
+  }else{
+    el.querySelectorAll(".choice").forEach(b=>{
+      b.disabled=true;
+      if(normCmd(b.dataset.choice)===normCmd(q.answer)) b.classList.add("correct");
+    });
+  }
+  lockCard(el,q,false,true);
+}
+
+function lockCard(el,q,correct,revealed){
+  if(el.dataset.locked) return;
+  el.dataset.locked="1";
+  el.dataset.correct=correct?"1":"0";
+  state.answered[q.id]= revealed ? false : correct;
+  showFeedback(el,q,correct,revealed);
+  updateScore();
+}
+
+function showFeedback(el,q,correct,revealed){
+  const fb=el.querySelector("[data-feedback]");
+  fb.className="feedback show "+(correct?"ok":"ng");
+  const verdict = revealed ? "💡 答え合わせ"
+                : correct ? "🎉 大正解！ 黄金きっぷ獲得"
+                : "🍂 おしい… もう一度レシピを確認";
+  fb.innerHTML=`
+    <div class="verdict">${verdict}</div>
+    <div>正解: <span class="ans">${escapeHtml(q.answer||"")}</span></div>
+    ${(q.accept&&q.accept.length)?`<div style="margin-top:4px;font-size:12px;color:var(--ink-soft)">別解: ${q.accept.map(a=>`<span class="ans">${escapeHtml(a)}</span>`).join(" ")}</div>`:""}
+    ${q.explanation?`<div class="exp">${escapeHtml(q.explanation)}</div>`:""}
+  `;
+}
+
+function updateScore(){
+  const correctCount=Object.values(state.answered).filter(Boolean).length;
+  const answeredCount=Object.keys(state.answered).length;
+  const total=state.questions.length;
+  scoreNum.textContent=correctCount;
+  barFill.style.width=(total? (answeredCount/total*100):0)+"%";
+  tixEl.innerHTML="🎫".repeat(correctCount);
+  if(answeredCount===total && total>0){
+    setTimeout(()=>{
+      const rate=Math.round(correctCount/total*100);
+      showToast(`本日の納品完了！正答率 ${rate}% 🍫 黄金きっぷ ${correctCount}枚`);
+    },300);
+  }
+}
+
+/* =========================================================
+   lightbox (画像眺める)
+   ========================================================= */
+const lightbox=$("#lightbox"), lbImg=$("#lbImg"), lbStage=$("#lbStage"),
+      lbZoom=$("#lbZoom"), lbZoomVal=$("#lbZoomVal"), lbClose=$("#lbClose");
+let lbScale=1, lbX=0, lbY=0, dragging=false, sx=0, sy=0;
+
+function openLightbox(){
+  if(!state.image) return;
+  lbImg.src=state.image.dataUrl;
+  lbScale=1; lbX=0; lbY=0; lbZoom.value=1; applyLb();
+  lightbox.classList.add("show");
+}
+function closeLightbox(){ lightbox.classList.remove("show"); }
+function applyLb(){
+  lbImg.style.transform=`translate(${lbX}px,${lbY}px) scale(${lbScale})`;
+  lbZoomVal.textContent="×"+lbScale.toFixed(1);
+}
+lbClose.onclick=closeLightbox;
+lightbox.addEventListener("click",e=>{ if(e.target===lightbox) closeLightbox(); });
+lbZoom.oninput=()=>{ lbScale=+lbZoom.value; applyLb(); };
+lbStage.addEventListener("mousedown",e=>{dragging=true;lbStage.classList.add("drag");sx=e.clientX-lbX;sy=e.clientY-lbY;});
+window.addEventListener("mousemove",e=>{ if(dragging){lbX=e.clientX-sx;lbY=e.clientY-sy;applyLb();} });
+window.addEventListener("mouseup",()=>{dragging=false;lbStage.classList.remove("drag");});
+lbStage.addEventListener("touchstart",e=>{const t=e.touches[0];dragging=true;sx=t.clientX-lbX;sy=t.clientY-lbY;},{passive:true});
+lbStage.addEventListener("touchmove",e=>{ if(dragging){const t=e.touches[0];lbX=t.clientX-sx;lbY=t.clientY-sy;applyLb();} },{passive:true});
+lbStage.addEventListener("touchend",()=>dragging=false);
+lbStage.addEventListener("wheel",e=>{ e.preventDefault(); lbScale=Math.min(4,Math.max(1,lbScale+(e.deltaY<0?.2:-.2))); lbZoom.value=lbScale; applyLb(); },{passive:false});
+document.addEventListener("keydown",e=>{ if(e.key==="Escape") closeLightbox(); });
+
+/* =========================================================
+   utils
+   ========================================================= */
+function escapeHtml(s){ return (s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
+function escapeAttr(s){ return escapeHtml(s).replace(/"/g,"&quot;"); }
+let toastTimer;
+function showToast(msg){
+  toast.textContent=msg; toast.classList.add("show");
+  clearTimeout(toastTimer); toastTimer=setTimeout(()=>toast.classList.remove("show"),3200);
+}
+</script>
+</body>
+</html>
